@@ -62,7 +62,10 @@ def students_markup(message):
     markup.add("All")
     for i in st:
         markup.add(str(i))
-    msg = bot.reply_to(message, 'Hello', reply_markup=markup)
+    msg = bot.reply_to(message,
+                       'Hello. This is students block, '
+                       'click on the button to get information',
+                       reply_markup=markup)
     bot.register_next_step_handler(msg, st_step)
 
 
@@ -81,9 +84,15 @@ def send_students(message):
 
 def send_single_student(message):
     m = message.text.split(": ")
-    student = requests.get(f'http://127.0.0.1:5000/students/{m[1]}').json()
-    for k, v in student.items():
-        bot.send_message(message.chat.id, f"{k} : {v}")
+    try:
+        student = requests.get(
+            f'http://127.0.0.1:5000/students/{int(m[1])}').json()
+        for k, v in student.items():
+            bot.send_message(message.chat.id, f"{k} : {v}")
+    except IndexError:
+        bot.send_message(message.chat.id, "Please enter valid information,"
+                                          " if nothing happens after pressing"
+                                          " the button, enter /start again")
 
 
 @bot.message_handler(commands=['Teachers', 'teachers'])
@@ -94,7 +103,10 @@ def teachers_markup(message):
     markup.add("All")
     for i in tch:
         markup.add(str(i))
-    msg = bot.reply_to(message, 'Hello', reply_markup=markup)
+    msg = bot.reply_to(message,
+                       'Hello. This is teachers block,'
+                       ' click on the button to get information',
+                       reply_markup=markup)
     bot.register_next_step_handler(msg, teach_step)
 
 
@@ -113,9 +125,15 @@ def send_teachers(message):
 
 def send_single_teacher(message):
     m = message.text.split(": ")
-    teacher = requests.get(f'http://127.0.0.1:5000/teachers/{m[1]}').json()
-    for k, v in teacher.items():
-        bot.send_message(message.chat.id, f"{k} : {v}")
+    try:
+        teacher = requests.get(f'http://127.0.0.1:5000/teachers/{m[1]}').json()
+        for k, v in teacher.items():
+            bot.send_message(message.chat.id, f"{k} : {v}")
+
+    except IndexError:
+        bot.send_message(message.chat.id, "Please enter valid information,"
+                                          " if nothing happens after pressing"
+                                          " the button, enter /start again")
 
 
 @bot.message_handler(commands=['Courses', 'courses'])
@@ -126,12 +144,13 @@ def courses_markup(message):
     markup.add("All")
     for i in cr:
         markup.add(str(i))
-    msg = bot.reply_to(message, 'Hello', reply_markup=markup)
+    msg = bot.reply_to(message, 'Hello. This is students block, '
+                                'click on the button to get information',
+                       reply_markup=markup)
     bot.register_next_step_handler(msg, course_step)
 
 
 def course_step(message):
-    chat_id = message.chat.id
     if message.text == 'All':
         send_courses(message)
     else:
@@ -146,9 +165,14 @@ def send_courses(message):
 
 def send_single_course(message):
     m = message.text.split(": ")
-    course = requests.get(f'http://127.0.0.1:5000/courses/{m[1]}').json()
-    for k, v in course.items():
-        bot.send_message(message.chat.id, f"{k} : {v}")
+    try:
+        course = requests.get(f'http://127.0.0.1:5000/courses/{m[1]}').json()
+        for k, v in course.items():
+            bot.send_message(message.chat.id, f"{k} : {v}")
+    except IndexError:
+        bot.send_message(message.chat.id, "Please enter valid information,"
+                                          " if nothing happens after pressing"
+                                          " the button, enter /start again")
 
 
 @bot.message_handler(commands=['Modules', 'modules'])
@@ -159,7 +183,9 @@ def modules_markup(message):
     markup.add("All")
     for i in mod:
         markup.add(str(i))
-    msg = bot.reply_to(message, 'Hello', reply_markup=markup)
+    msg = bot.reply_to(message, 'Hello. This is students block, '
+                                'click on the button to get information',
+                       reply_markup=markup)
     bot.register_next_step_handler(msg, module_step)
 
 
@@ -178,9 +204,14 @@ def send_modules(message):
 
 def send_single_module(message):
     m = message.text.split(": ")
-    course = requests.get(f'http://127.0.0.1:5000/modules/{m[1]}').json()
-    for k, v in course.items():
-        bot.send_message(message.chat.id, f"{k} : {v}")
+    try:
+        course = requests.get(f'http://127.0.0.1:5000/modules/{m[1]}').json()
+        for k, v in course.items():
+            bot.send_message(message.chat.id, f"{k} : {v}")
+    except IndexError:
+        bot.send_message(message.chat.id, "Please enter valid information,"
+                                          " if nothing happens after pressing"
+                                          " the button, enter /start again")
 
 
 if __name__ == "__main__":
