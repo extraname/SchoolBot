@@ -66,7 +66,7 @@ def send_school(message):
 def students_markup(message):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     students = requests.get(f'http://127.0.0.1:5000/students').json()
-    st = [f"{i['name']} : {i['id']} " for i in students]
+    st = [f"{i['name']} with unique id : {i['id']} " for i in students]
     markup.add("Back")
     markup.add("All")
     for i in st:
@@ -124,7 +124,7 @@ def send_single_student(message):
 def teachers_markup(message):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     teachers = requests.get(f'http://127.0.0.1:5000/teachers').json()
-    tch = [f"{i['name']} : {i['id']} " for i in teachers]
+    tch = [f"{i['name']} with unique id : {i['id']} " for i in teachers]
     markup.add('Back')
     markup.add("All")
     for i in tch:
