@@ -273,6 +273,8 @@ def send_text(message):
         modules_markup(message)
     elif message.text.lower() == 'start':
         send_welcome(message)
+    elif message.text.lower() == 'help':
+        send_help(message)
 
 
 if __name__ == "__main__":
